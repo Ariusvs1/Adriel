@@ -24,7 +24,6 @@ module.exports = class Bot extends Client {
         this.commands.load()
         this.devs = "731748818579882076"
         require("./others")
-        this.queue = new Map()
         this.distube = new Distube(this, {
             searchSongs: true,
             emitNewSongOnly: false,
@@ -34,6 +33,6 @@ module.exports = class Bot extends Client {
         })
         this.distu = new DisTube(this)
         this.distu.load()
-        this.login("ODI5NDgzOTk4MzQ5ODg1NDcx.YG4zLA.2oC_Hk8QSUoaiZK4Y5D1Kxr8a58")
+        this.login(process.env.TOKEN)
     }
 }
