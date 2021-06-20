@@ -1,0 +1,22 @@
+ if(message.author.bot) return;
+		if(!message.guild) return;
+        const randomXp = Math.floor(Math.random() * 29) + 1; 
+   const a = appendXp(message.author.id, message.guild.id, randomXp)
+if(a){
+    let user = await Profile.findOne({ userID: message.author.id, guildID: message.guild.id });
+    if(!user)return;
+    let level = user.level;
+    let xp = user.xp; 
+    const needed = level * level * 100;
+
+    if(xp >= needed){
+        user.level = user.level + 1;
+        user.xp = user.xp - needed;
+        await user.save().catch((e) => console.log(e))
+    const embed = new Discord.MessageEmbed()
+    .setDescription(`${message.author}, GG! Subiste al nivel **${user.level}**. :tada:`)
+    .setColor("GREEN")
+    .setThumbnail(message.author.displayAvatarURL({ dynamic: true}))
+    message.channel.send(embed);
+    }
+}

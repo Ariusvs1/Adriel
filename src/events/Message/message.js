@@ -1,5 +1,7 @@
 const Events = require('../../structures/Event')
 const Servers = require('../../db/servers')
+const Profile = require('../../db/Profile.js')
+const Discord = require('discord.js-light')
 module.exports = class Message extends Events {
     constructor(client) {
         super(client, {
@@ -8,6 +10,8 @@ module.exports = class Message extends Events {
     }
 
     async run(message) {
+
+       
      let i = await Servers.findOne({ servID: message.guild.id });
 
         let prefix = i ? i.prefix : "^";
@@ -34,3 +38,24 @@ module.exports = class Message extends Events {
         }
     }
 }
+async function appendXp(userId, guildId, xp) {
+    if (!userId) throw new TypeError("An user id was not provided.");
+    if (!guildId) throw new TypeError("A guild id was not provided.");
+    if (xp == 0 || !xp || isNaN(parseInt(xp))) throw new TypeError("An amount of xp was not provided/was invalid.");
+
+    const user = await Profile.findOneAndUpdate({ userID: userId, guildID: guildId }, { $inc: { xp: xp  } });
+
+    if (!user) {
+      const newUser = new Profile({
+        userID: userId,
+        guildID: guildId,
+        xp: xp
+      });
+
+      await newUser.save().catch(e => console.log(`Failed to save new user.`));
+    } 
+
+ 
+    await user.save().catch(e => console.log(`Failed to append xp: ${e}`) );
+
+  }
