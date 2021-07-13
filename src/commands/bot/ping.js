@@ -1,5 +1,5 @@
 const Commands = require('../../structures/Command');
-const { MessageEmbed } = require('discord.js-light');
+const { MessageEmbed } = require('discord.js');
 module.exports = class Ping extends Commands {
     constructor(client) {
         super(client, {
@@ -13,14 +13,11 @@ module.exports = class Ping extends Commands {
 
 	const timeTaken = Date.now() - message.createdTimestamp;
 
-	message.channel.send({embed: {
+const embed = new MessageEmbed()
 
-		color: 3447003,
+.setColor(3447003)
+.setDescription(`**🏓 Pong!**\nLa velocidad de respuesta es de ***${timeTaken}ms.***`)
 
-		description: `**🏓 Pong!** 
-	La velocidad de respuesta es de ***${timeTaken}ms.***`
-	}
-
-});
+	message.channel.send({embeds: [embed]});
  }
 }

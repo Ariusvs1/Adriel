@@ -1,5 +1,5 @@
 const Commands = require('../../structures/Command');
-const Discord = require('discord.js-light');
+const Discord = require('discord.js');
 module.exports = class Lick extends Commands {
     constructor(client) {
         super(client, {
@@ -42,7 +42,7 @@ try {
   .setColor("RED")
   .setDescription(`${user} No es una ID valida, asegurate que sea de un usuario!`)
 
-  message.channel.send(error)
+  message.channel.send({ embeds: [error]})
 }
   
     }

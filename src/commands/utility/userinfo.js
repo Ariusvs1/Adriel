@@ -1,5 +1,5 @@
 const Commands = require('../../structures/Command');
-const Discord = require('discord.js-light');
+const Discord = require('discord.js');
 module.exports = class Userinfo extends Commands {
     constructor(client) {
         super(client, {
@@ -62,7 +62,7 @@ module.exports = class Userinfo extends Commands {
                 },
                 {
                     name: 'Avatar link: ',
-                    value: `[Pinche Aquí](${user.user.displayAvatarURL()})`
+                    value: `[Click aquí](${user.user.displayAvatarURL()})`
                 },
                 {
                     name: 'Se unio a discord en: ',
@@ -81,7 +81,7 @@ module.exports = class Userinfo extends Commands {
                 }
             )
 
-        await message.channel.send(embed)
+        await message.channel.send({embeds: [embed] })
   
 
   

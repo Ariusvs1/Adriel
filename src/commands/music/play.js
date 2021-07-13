@@ -6,6 +6,7 @@ module.exports = class Play extends Commands {
             aliases: ["p", "pa"],
             description: "Reproduce la cancion que quieras!",
             usage: "p <nombre da la cancion>",
+            enabled: false,
          });
     }
 

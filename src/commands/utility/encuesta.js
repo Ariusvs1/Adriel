@@ -1,5 +1,5 @@
 const Commands = require('../../structures/Command');
-const Discord = require('discord.js-light');
+const { MessageEmbed } = require('discord.js');
 module.exports = class Encuesta extends Commands {
     constructor(client) {
         super(client, {
@@ -7,30 +7,26 @@ module.exports = class Encuesta extends Commands {
           alias: ["enc", "poll"],
           description: "Has una encuesta.",
           usage: "encuesta <pregunta> | <opcion1> | <opcion2>",
+          enabled: false,
          });
     }
 
     async run(message, args) {
+        const embed = new MessageEmbed()
 
-      const test = args.join(" ").split(" | ");
-  const [pregunta, opcion1, opcion2] = test;
+let au = message.author;
+let ala = args.join(" ");
+if(!ala) return message.channel.send("Debes ingresar una pregunta y dos opciones.\nLas preguntas deben estar dentro de `[]` y las opciones deben estar dentro de `{}`")
+let reg = /((?<=\[).*(?=\]))/g
+let pregunta = ala.match(reg)
+let reg2 = /((?<=\{).*(?=\}))/g
 
-  let [react1, react2] = ["<a:one1:830998558055989288>", "<a:two2:830998598765772831>"]
+let opciones = ala.match(reg2)
+console.log(pregunta)
+console.log(opciones)
 
-  if(!pregunta) return message.channel.send("Escribe una pregunta.")
-  if(!opcion1) return message.channel.send("Necesitas ingresar dos opciones.")
-  if(!opcion2) return message.channel.send("Necesitas ingresar dos opciones.")
-  
-  const a = new Discord.MessageEmbed()
 
-  .setTitle(`${pregunta} \n`)
-  .addField(`${react1}`, `${opcion1}`)
-  .addField(`${react2}`, `${opcion2}`)
-  .setFooter(`Encuesta realizada por ${message.author.tag}`)
-  .setColor("RANDOM")
+message.channel.send(`\`\`\` ${pregunta} \n ${opciones} \`\`\``)
 
-  message.channel.send(a).then(async msg => {
-    await msg.react(`${react1}`), await msg.react(`${react2}`)
-  })
  }
 }

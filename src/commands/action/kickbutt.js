@@ -1,5 +1,5 @@
 const Commands = require('../../structures/Command');
-const Discord = require('discord.js-light');
+const Discord = require('discord.js');
 module.exports = class Kickbutt extends Commands {
     constructor(client) {
         super(client, {
@@ -34,7 +34,7 @@ const embed = new Discord.MessageEmbed()
   .setColor("RANDOM")
   
 
-  message.channel.send(embed)
+  message.channel.send({embeds: [embed]})
   }
 } catch {
   const error = new Discord.MessageEmbed()

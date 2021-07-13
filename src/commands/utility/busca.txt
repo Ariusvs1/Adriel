@@ -1,5 +1,6 @@
 const { MessageActionRow, MessageButton, MessageEmbed } = require("discord.js")
 const Commands = require('../../structures/Command');
+const Discord = require('discord.js');
 const googleIt = require('google-it');
 const data = require('../../assets/sites.json');
 module.exports = class Encuesta extends Commands {
@@ -13,15 +14,15 @@ module.exports = class Encuesta extends Commands {
     }
 
     async run(message, args) {
-        if (!args[0]) return message.channel.send('Debes escribir algo.')
+        if (!args[1]) return message.channel.send('Debes escribir algo.')
       //  if (bot.badwords.isProfane(args.slice(1).join(" ").toLowerCase()) && !message.channel.nsfw) return message.channel.send("To order this content go to an NSFW channel.")
        // message.channel.startTyping();
     
-        const results = await googleIt({ 'query': args.join(" "), 'limit': 7, disableConsole: true });
+        const results = await googleIt({ 'query': args.slice(1).join(" "), 'limit': 7, disableConsole: true });
     
         if (results.some(e => checkCleanUrl(e.link)) && !message.channel.nsfw) {
           message.channel.stopTyping(true);
-          return message.channel.send("Tu busqueda contiene **NSFW.** Ve a un canal NSFW e intenta otra vez.");
+          return message.channel.send("Your search includes NSFW content. To order this content go to an NSFW channel.");
         }
     //    if (results.some(e => (bot.badwords.isProfane(e.title.toLowerCase()) || bot.badwords.isProfane(e.snippet.toLowerCase()))) && !message.channel.nsfw) {
       //    message.channel.stopTyping(true);
@@ -45,10 +46,10 @@ module.exports = class Encuesta extends Commands {
           .setTimestamp();
         const but_link_google = new MessageButton()
           .setStyle("LINK")
-          .setURL(`https://www.google.com/search?q=${args.join("+")}`)
+          .setURL(`https://www.google.com/search?q=${args.slice(1).join("+")}`)
           .setLabel("Google search link");
         message.channel.stopTyping(true);
-        await message.channel.send({ embeds: [embed], components: [new MessageActionRow().addComponents([but_link_google])] });
+        await message.channel.send("hola", { embeds: [embed], components: [new MessageActionRow().addComponents([but_link_google])] });
 
     }
 }

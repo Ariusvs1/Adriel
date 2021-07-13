@@ -1,5 +1,5 @@
 const Commands = require('../../structures/Command');
-const Discord = require('discord.js-light');
+const Discord = require('discord.js');
 module.exports = class Embed extends Commands {
     constructor(client) {
         super(client, {
@@ -29,14 +29,14 @@ const channel = message.mentions.channels.first() || message.guild.channels.cach
     let footer = "";
 
     const embed = new Discord.MessageEmbed();
-
-     let collector = message.channel.createMessageCollector((m) => m.author.id === message.author.id, { idle: 120000 })
+    const filter = m => m.author.id === message.author.id;
+     let collector = message.channel.createMessageCollector({ filter, idle: 120000 })
     collector.on("collect", async m => {
       if(m.content === "exit") return collector.stop("Exited");
 
       switch(i) {
         case 0:
-    if(m.content === "none") {
+    if(m.content.toLowerCase() === "none") {
       msgContent = undefined
           } else {
             msgContent = m.content;
@@ -47,7 +47,7 @@ const channel = message.mentions.channels.first() || message.guild.channels.cach
       await message.channel.send(questions[i]);
           break;
             case 1:
-          if(m.content === "none") {
+          if(m.content.toLowerCase() === "none") {
             i = i + 3;
             await message.channel.send(questions[i]);
           } else {
@@ -57,12 +57,12 @@ const channel = message.mentions.channels.first() || message.guild.channels.cach
           }
           break;
           case 2:
-            if(m.content === "none") {
+            if(m.content.toLowerCase() === "none") {
             authorimg = undefined;
             i++
             await message.channel.send(questions[i]);
           } else {
-            if(!m.attachments.first() && !linkregex.test(m.content)) return message.channel.send("Invalid URL");
+            if(!m.attachments.first() && !linkregex.test(m.content)) return message.channel.send("No es una URL!");
             else if (m.attachments.first()) {
               authorimg = m.attachments.first().url;
               i++
@@ -75,14 +75,14 @@ const channel = message.mentions.channels.first() || message.guild.channels.cach
           break;
           case 3:
 
-           if(m.content === "none") {
+           if(m.content.toLowerCase() === "none") {
             authorlink = undefined;
             i++
 
             embed.setAuthor(author, authorimg, authorlink);
             await message.channel.send(questions[i]);
           } else {
-            if(!linkregex.test(m.content)) return message.channel.send("Invalid URL");
+            if(!linkregex.test(m.content)) return message.channel.send("No es una URL!");
             else {
               authorlink = m.content; 
               i++
@@ -92,7 +92,7 @@ const channel = message.mentions.channels.first() || message.guild.channels.cach
           }
           break;
           case 4:
-                    if(m.content === "none") {
+                    if(m.content.toLowerCase() === "none") {
             i++
           } else {
             embed.setTitle(m.content);
@@ -101,16 +101,16 @@ const channel = message.mentions.channels.first() || message.guild.channels.cach
           await message.channel.send(questions[i]);
           break;
           case 5:
-          if(m.content === "none") {
+          if(m.content.toLowerCase() === "none") {
             i++
           } else if (linkregex.test(m.content)){
             embed.setURL(m.content);
             i++
-          } else return message.channel.send("Invalid URL");
+          } else return message.channel.send("No es una URL");
           await message.channel.send(questions[i]);
           break;
           case 6:
-          if(m.content === "none") {
+          if(m.content.toLowerCase() === "none") {
             i++
           } else {
             embed.setDescription(m.content);
@@ -119,11 +119,11 @@ const channel = message.mentions.channels.first() || message.guild.channels.cach
           await message.channel.send(questions[i]);
           break;
           case 7:
-      if(m.content === "none") {
+      if(m.content.toLowerCase() === "none") {
             i++
             await message.channel.send(questions[i]);
           } else {
-            if(!m.attachments.first() && !linkregex.test(m.content)) return message.channel.send("Invalid URL");
+            if(!m.attachments.first() && !linkregex.test(m.content)) return message.channel.send("No es una URL");
             else if (m.attachments.first()) {
               embed.setThumbnail(m.attachments.first().url);
               i++
@@ -140,7 +140,7 @@ const channel = message.mentions.channels.first() || message.guild.channels.cach
             i++
             await message.channel.send(questions[i]);
           } else {
-            if(!m.attachments.first() && !linkregex.test(m.content)) return message.channel.send("Invalid URL");
+            if(!m.attachments.first() && !linkregex.test(m.content)) return message.channel.send("No es una URL!");
             else if (m.attachments.first()) {
               embed.setImage(m.attachments.first().url);
               i++
@@ -167,7 +167,7 @@ const channel = message.mentions.channels.first() || message.guild.channels.cach
             embed.setFooter(footer)
             await message.channel.send(questions[i]);
           } else {
-            if(!m.attachments.first() && !linkregex.test(m.content)) return message.channel.send("Invalid URL");
+            if(!m.attachments.first() && !linkregex.test(m.content)) return message.channel.send("No es una URL!");
             else if (m.attachments.first()) {
               embed.setFooter(footer, m.attachments.first().url)
               i++
@@ -184,27 +184,27 @@ const channel = message.mentions.channels.first() || message.guild.channels.cach
           await message.channel.send(questions[i]);
           break;
           case 12:
-             if(m.content.toLowerCase() === "yes") {
+             if(m.content.toLowerCase() === "si") {
             collector.stop("field")
           } else if (m.content.toLowerCase() === "no") {
             collector.stop("Finished");
-          } else return message.channel.send("Invalid option!");
+          } else return message.channel.send("Opcion equivocada!");
           break;
       }
     })
     collector.on("end", async (collected, reason) => {
       //Uso "exit" para no crear un embed
       if (reason === "Exited") {
-        message.channel.send("It seems you don't want an embed.");
+        message.channel.send("Ya veo, no quieres un embed.");
 
         //Quiere fields. Para este caso llamaremos a una función que retornará una promesa. Si se resuelve devuelve el embed, si no devolverá "una razón". Asi lo programe....
       } else if(reason === "field") {
         fields(message, embed).then(embed => {
-          channel.send(msgContent, embed);
+          channel.send({ content: msgContent, embeds: [embed] });
         }).catch(reason => {
           //El usuario se demora mucho.
           if (reason === "idle") {
-        message.channel.send("Your time is over (2 minutes). Run this command again if you want a embed");
+        message.channel.send("El tiempo maximo acabo(2 Minutos). Ejecuta el comando otra vez si quieres un embed.");
       } else {
         //Caso raro de que termine por otra razón...
         message.channel.send("Collector ended with reason: " + reason).catch(err => {});
@@ -213,10 +213,10 @@ const channel = message.mentions.channels.first() || message.guild.channels.cach
       }
       else if(reason === "Finished") {
         //Terminó de hacer el embed
-        channel.send(msgContent, embed);
+        channel.send({ content: msgContent, embeds: [embed] });
       } else if (reason === "idle") {
         //El usuario se demora mucho
-        message.channel.send("Your time is over (2 minutes). Run this command again if you want a embed");
+        message.channel.send("El tiempo maximo acabo(2 Minutos). Ejecuta el comando otra vez si quieres un embed.");
       } else {
         //Caso raro de que termine por otra razón...
         message.channel.send("Collector ended with reason: " + reason).catch(err => {});
@@ -236,7 +236,8 @@ function fields(message, embed) {
     message.channel.send(arr[i]);
 
     //Otro colector
-    let collector = message.channel.createMessageCollector((m) => m.author.id === message.author.id, { idle: 120000 });
+    const filtro = m => m.author.id === message.author.id;
+    let collector = message.channel.createMessageCollector({ filtro, idle: 120000 });
     collector.on("collect", m => {
       switch(i) {
         case 0:
@@ -250,13 +251,13 @@ function fields(message, embed) {
           message.channel.send(arr[i]);
           break;
         case 2:
-          if(m.content.toLowerCase() === "yes") {
+          if(m.content.toLowerCase() === "si") {
             embed.addField(title, des, true)
             i++;
           } else if (m.content.toLowerCase() === "no") {
             embed.addField(title, des)
             i++;
-          } else return message.channel.send("Invalid option!");
+          } else return message.channel.send("Opcion equivocada!");
           //No puedes crear más de 25 fields
           if (o <= 25) message.channel.send(arr[i]);
           else collector.stop("OK");
@@ -271,7 +272,7 @@ function fields(message, embed) {
             message.channel.send(arr[i]);
           } else if (m.content.toLowerCase() === "no") {
             collector.stop("OK");
-          } else return message.channel.send("Invalid option!");
+          } else return message.channel.send("Opcion equivocada!");
           break;
       }
     })

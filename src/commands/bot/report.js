@@ -1,5 +1,5 @@
 const Commands = require('../../structures/Command');
-const Discord = require('discord.js-light');
+const Discord = require('discord.js');
 module.exports = class Report extends Commands {
     constructor(client) {
         super(client, {
@@ -20,7 +20,7 @@ module.exports = class Report extends Commands {
   .setDescription("Reporte enviado correctamente. Muchas gracias! :D")
   .setColor("GREEN")
 
-  message.channel.send(report)
+  message.channel.send({embeds: [report]})
 
   let a = message.author;
   const embed = new Discord.MessageEmbed()
@@ -31,7 +31,7 @@ module.exports = class Report extends Commands {
   .setColor("BLUE")
   .setFooter("ID: " + a.id)
 
-  client.channels.cache.get("838968214234726420").send(embed)
+  client.channels.cache.get("838968214234726420").send({embeds: [embed]})
 
     }
 }

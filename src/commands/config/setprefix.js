@@ -1,6 +1,6 @@
 const Commands = require('../../structures/Command');
 const Servers = require('../../db/servers.js');
-const Discord = require('discord.js-light');
+const Discord = require('discord.js');
 module.exports = class Setprefix extends Commands {
     constructor(client) {
         super(client, {

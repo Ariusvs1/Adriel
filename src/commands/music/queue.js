@@ -1,5 +1,5 @@
 const Commands = require('../../structures/Command');
-const Discord = require('discord.js-light');
+const Discord = require('discord.js');
 module.exports = class Queue extends Commands {
     constructor(client) {
         super(client, {
@@ -26,7 +26,7 @@ const lista = new Discord.MessageEmbed()
 .setDescription(lista1)
 .setColor("BLUE")
 .setTimestamp()
-message.channel.send(lista)
+message.channel.send({embeds: [lista]})
 
      
   }

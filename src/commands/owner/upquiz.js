@@ -1,5 +1,5 @@
 const Commands = require('../../structures/Command');
-const Discord = require('discord.js-light');
+const Discord = require('discord.js');
 const Quiz = require('../../db/quiz.js');
 const data = require('../../src/config.js');
 module.exports = class Upquiz extends Commands {

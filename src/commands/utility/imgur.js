@@ -1,7 +1,7 @@
 const Commands = require('../../structures/Command');
 const https = require('https');
 const fs = require('fs'); 
-const Discord = require("discord.js-light")
+const Discord = require("discord.js")
 module.exports = class Imgur extends Commands {
     constructor(client) {
         super(client, {
@@ -103,7 +103,7 @@ const en = new dc.MessageEmbed()
 .setDescription(`**Link:**\n||${conten}||`)
 .setTimestamp()
 .setFooter(`imgur.com`)
-msg.channel.send(en)
+msg.channel.send({ embeds: [en] })
 
 
 }

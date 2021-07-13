@@ -1,5 +1,5 @@
 const Commands = require('../../structures/Command');
-const Discord = require('discord.js-light');
+const Discord = require('discord.js');
 module.exports = class Kiss extends Commands {
     constructor(client) {
         super(client, {
@@ -31,7 +31,7 @@ try {
   .setImage(randomIMG)
   .setColor("RANDOM")
 
-  message.channel.send(embed)
+  message.channel.send({ embeds: [embed]})
   }
 } catch {
   const error = new Discord.MessageEmbed()
@@ -41,7 +41,7 @@ try {
   .setColor("RED")
   .setDescription(`${user} No es una ID valida, asegurate que sea de un usuario!`)
 
-  message.channel.send(error)
+  message.channel.send({ embeds: [error]})
 }
 
    }

@@ -1,11 +1,11 @@
 const Commands = require('../../structures/Command');
-const Discord = require('discord.js-light');
+const Discord = require('discord.js');
 const fetch = require("node-fetch");
 module.exports = class Youtube extends Commands {
     constructor(client) {
         super(client, {
           name: "youtube",
-         alias: ["yt"],
+         aliases: ["yt"],
          description: "Mira cualquier video de Youtube con tus amigos sin compartir pantallá",
          usage: "youtube",
          });
@@ -42,12 +42,12 @@ module.exports = class Youtube extends Commands {
                 validate: null
             }),
             headers: {
-                "Authorization": `Bot ODI5NDgzOTk4MzQ5ODg1NDcx.YG4zLA.2oC_Hk8QSUoaiZK4Y5D1Kxr8a58`,
+                "Authorization": `Bot ${procees.env.TOKEN}`,
                 "Content-Type": "application/json"
             }
            
         }).then(res => res.json()).then(invite => {
-            if(!invite.code) return message.channel.send("No puedo iniciar un yt toggeter :C")
+            if(!invite.code) return message.channel.send("Algo salio mal, intentalo mas tarde!")
             message.channel.send(`https://discord.com/invite/${invite.code}`)
         })
 

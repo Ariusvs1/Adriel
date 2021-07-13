@@ -1,5 +1,5 @@
 const Commands = require('../../structures/Command');
-const Discord = require('discord.js-light');
+const Discord = require('discord.js');
 const Canvas = require('canvas');
 const Profile = require('../../db/Profile')
 module.exports = class Rank extends Commands {
@@ -65,7 +65,7 @@ context.restore();
     const attachment = new Discord.MessageAttachment(canvas.toBuffer(), 'rank.png');
 
 
-	msg.channel.send(attachment);
+	msg.channel.send({files: [attachment]});
 
  }
 }

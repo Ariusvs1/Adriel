@@ -1,5 +1,5 @@
 const Commands = require('../../structures/Command');
-const Discord = require('discord.js-light');
+const Discord = require('discord.js');
 module.exports = class Roll extends Commands {
     constructor(client) {
         super(client, {
@@ -22,6 +22,6 @@ module.exports = class Roll extends Commands {
   .setImage(dado)
   .setColor("RANDOM")
   
-  message.channel.send(embed)
+  message.channel.send({embeds: [embed]})
   }
 }

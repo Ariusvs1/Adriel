@@ -1,6 +1,6 @@
 const Servers = require('../../db/servers');
 const Commands = require('../../structures/Command');
-const Discord = require('discord.js-light');
+const Discord = require('discord.js');
 module.exports = class Setwords extends Commands {
     constructor(client) {
         super(client, {
@@ -12,11 +12,10 @@ module.exports = class Setwords extends Commands {
     }
 
     async run(message, args) {
-
+if(!args[0])return;
 
       const palabras = args.join(" ").split(" | ");
  if(!palabras) return message.channel.send("Escribe la/las palabra/s a prohibir separadas con `|`.");
- if(args[0] === " ")return;
       const filtro = message.content.slice(palabras.length).endsWith("--de");
      
       if(!message.member.hasPermission("MANAGE_GUILD"))return message.channel.send("No tienes permisos suficientes.");
@@ -61,7 +60,7 @@ const subida = await Servers.updateOne({ servID: message.guild.id }, {$addToSet:
 
   else {
     const delet = await Servers.updateOne({ servID: message.guild.id }, { $pull: { words: delepa } } );
-    message.channel.send(`Listo! la palabra ` + "`" + `${delepa}` + "` Fue eliminada de la lista prohibida.")
+    message.channel.send(`Listo! la palabra ` + "`" + `${delepa.split("--de")}` + "` Fue eliminada de la lista prohibida.")
 
   }
 

@@ -1,5 +1,5 @@
 const Commands = require('../../structures/Command');
-const Discord = require('discord.js-light');
+const Discord = require('discord.js');
 const Quiz = require('../../db/quiz.js');
 const data = require('../../src/config.js');
 const jsp = require('jspaste');
@@ -35,7 +35,7 @@ module.exports = class Eval extends Commands {
         const edit = new Discord.MessageEmbed()
         .setDescription("Evaluando...")
         .setColor("#7289DA")
-        message.channel.send(edit).then(async msg => { 
+        message.channel.send({embeds: [edit]}).then(async msg => { 
             try {
               let code = args.join(" ");
               let evalued = await eval(code);
@@ -54,7 +54,7 @@ module.exports = class Eval extends Commands {
                 .addField(":file_folder: Tipo", `\`\`\`js\n${mayuscula(tipo)}\n\`\`\``, true)
                 .addField(":stopwatch: Tiempo", `\`\`\`fix\n${Date.now() - tiempo1}ms\n\`\`\``, true)
                 .setColor("#7289DA")
-                msg.edit(embed);
+                msg.edit({embeds: [embed]});
   
         
               } else { 
@@ -66,7 +66,7 @@ module.exports = class Eval extends Commands {
                 .addField(":file_folder: Tipo", `\`\`\`js\n${mayuscula(tipo)}\n\`\`\``, true)
                 .addField(":stopwatch: Tiempo", `\`\`\`fix\n${Date.now() - tiempo1}ms\n\`\`\``, true)
                 .setColor("#7289DA")
-                msg.edit(embed);
+                msg.edit({embeds: [embed]});
               }
             } catch (err) {          
               let code = args.join(" ")
@@ -76,7 +76,7 @@ module.exports = class Eval extends Commands {
               .addField(":outbox_tray: Salida", `\`\`\`js\n${err}\n\`\`\``)
               .addField(":file_folder: Tipo", `\`\`\`js\nError\n\`\`\``)
               .setColor("RED")
-              msg.edit(embed);
+              msg.edit({embeds: [embed]});
           }
         })
         } 

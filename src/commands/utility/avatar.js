@@ -1,5 +1,5 @@
 const Commands = require('../../structures/Command');
-const Discord = require('discord.js-light');
+const Discord = require('discord.js');
 module.exports = class Avatar extends Commands {
     constructor(client) {
         super(client, {
@@ -28,7 +28,7 @@ try {
   .setColor("RANDOM")
   .setImage(user.displayAvatarURL({size: 4096,dynamic: true}))
   .setFooter("Pedido por " + msg.author.username, msg.author.displayAvatarURL({dynamic:true}))
-  msg.channel.send(embed)
+  msg.channel.send({ embeds: [embed] })
 } catch {
   const error = new Discord.MessageEmbed()
 
@@ -37,7 +37,7 @@ try {
   .setColor("RED")
   .setDescription(`${user} No es una ID valida, asegurate que sea de un usuario!`)
 
-  msg.channel.send(error)
+  msg.channel.send({embeds: [error]})
 }
 
  }

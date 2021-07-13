@@ -1,5 +1,5 @@
 const Commands = require('../../structures/Command');
-const Discord = require('discord.js-light');
+const Discord = require('discord.js');
 const Servers = require('../../db/servers.js');
 module.exports = class Help extends Commands {
     constructor(client) {
@@ -39,7 +39,7 @@ removeItemFromArr( datos, 'owner' )
    .addField("<:ranboo:842255066496237619> | Categorías.", "```" + "✥ | " + `${prefix}help ` + datos.join(`\n✥ | ${prefix}help `) + "```")
   .setFooter(`A r i u s versión 2.0.0`, this.client.user.displayAvatarURL())
   .setColor("#c50c92")
-  message.channel.send(embedDatos);
+  message.channel.send({ embeds: [embedDatos]});
 } else if(a && cat){
 
   let ono =  this.client.commands.filter((cmd) => cmd.category === a)
@@ -64,7 +64,7 @@ const embed2 = new Discord.MessageEmbed()
 .setDescription(`Para obtener ayuda detallada sobre un comando usa \`${prefix}help <comando>\``)
 .addField("<:ranboo:842255066496237619> | Comandos.", "```" + ono.map(cmd => cmd.name).join(' | ') + "```")
 .setColor("#c50c92")
-message.channel.send(embed2)
+message.channel.send({embeds: [embed2]})
 
 } else if(a && com) {
   let na = com.name;
@@ -77,7 +77,7 @@ message.channel.send(embed2)
   .setDescription(`<:ranboo:842255066496237619> | ${des}\n\n**Uso:**\n\`${prefix}${uso}\`\n\n**Alias:**\n\`${alias}\``)
   .setFooter("Sintaxis: <requerido> | [Opcional]")
   .setColor("PURPLE") 
-  message.channel.send(embed)
+  message.channel.send({embeds: [embed]})
 } else {
   message.channel.send("Esta categoria o comando no existe!")
 }

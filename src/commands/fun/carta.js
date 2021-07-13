@@ -1,5 +1,5 @@
 const Commands = require('../../structures/Command');
-const Discord = require('discord.js-light');
+const Discord = require('discord.js');
 module.exports = class Carta extends Commands {
     constructor(client) {
         super(client, {
@@ -7,6 +7,7 @@ module.exports = class Carta extends Commands {
          alias: ["crt"],
          description: "Enviale una carta a alguien a su MD.",
          usage: "carta <tag/mencion> <anonimo> <tipo> <color>",
+         enabled: false,
          });
     }
 
